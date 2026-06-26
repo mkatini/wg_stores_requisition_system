@@ -9,7 +9,8 @@ A modern, role-based **static HTML prototype** for the Stores Requisition Proces
 This prototype demonstrates a clean, paperless digital workflow based on the original "HOW TO USE" guide. It includes all major screens with realistic interactions.
 
 ### Live Demo
-👉 **[Open Prototype →](https://mkatini.github.io/wg_stores_requisition_system/)**  
+👉 **[Open Prototype →](https://mkatini.github.io/wg_stores_requisition_system/)**
+
 
 
 ## 📋 Features Included
