@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WGR-SRS · Requisitions Log</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f4f5f7;color:#1a1a1a;min-height:100vh}
+.app{display:flex;flex-direction:column;min-height:100vh}
+.topbar{background:#1a2744;color:#fff;padding:10px 20px;display:flex;align-items:center;justify-content:space-between}
+.logo-box{background:#e8a020;color:#fff;font-size:11px;font-weight:600;padding:4px 8px;border-radius:4px;letter-spacing:.5px}
+.logo-text{font-size:14px;font-weight:500;color:#e8e8e8;margin-left:10px}
+.logo-sub{font-size:10px;color:#4a6090;margin-top:1px}
+.user-badge{background:#2d3e6b;padding:4px 10px;border-radius:20px;display:flex;align-items:center;gap:6px;font-size:12px;color:#b0bcd4}
+.layout{display:flex;flex:1}
+.sidebar{width:200px;background:#1a2744;padding:12px 0;flex-shrink:0;min-height:calc(100vh - 46px)}
+.nav-section{padding:8px 16px 4px;font-size:10px;color:#4a6090;letter-spacing:1px;text-transform:uppercase}
+.nav-item{display:flex;align-items:center;gap:8px;padding:8px 16px;font-size:13px;color:#8a9ec4;cursor:pointer;border-left:2px solid transparent;text-decoration:none}
+.nav-item:hover{background:rgba(255,255,255,.05);color:#c8d4e8}
+.nav-item.active{background:rgba(232,160,32,.1);color:#e8a020;border-left-color:#e8a020}
+.nav-badge{background:#f0ad00;color:#fff;font-size:10px;padding:1px 6px;border-radius:8px;margin-left:auto}
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.page-header{background:#fff;border-bottom:.5px solid rgba(0,0,0,.1);padding:14px 20px;display:flex;align-items:center;justify-content:space-between}
+.page-title{font-size:16px;font-weight:500}
+.page-sub{font-size:12px;color:#666;margin-top:2px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:6px;font-size:13px;cursor:pointer;border:.5px solid #ccc;background:#fff;color:#1a1a1a;transition:all .15s}
+.btn:hover{background:#f5f5f5}
+.btn-primary{background:#1a2744;color:#fff;border-color:#1a2744}
+.btn-primary:hover{background:#253660}
+.filters-bar{background:#fff;border-bottom:.5px solid rgba(0,0,0,.08);padding:10px 20px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.filter-label{font-size:12px;color:#666}
+select.filter-sel{padding:5px 10px;border:.5px solid #ccc;border-radius:6px;font-size:12px;background:#fff;color:#1a1a1a;cursor:pointer}
+.search-box{display:flex;align-items:center;gap:6px;border:.5px solid #ccc;border-radius:6px;padding:5px 10px;background:#fff}
+.search-box input{border:none;outline:none;font-size:12px;background:transparent;width:160px;color:#1a1a1a}
+.stats-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;padding:14px 20px;background:#f4f5f7}
+.stat-card{background:#fff;border-radius:8px;border:.5px solid rgba(0,0,0,.08);padding:12px 14px;cursor:pointer;transition:border-color .15s}
+.stat-card:hover{border-color:#999}
+.stat-label{font-size:11px;color:#666;margin-bottom:4px}
+.stat-num{font-size:22px;font-weight:500}
+.stat-badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;margin-top:4px}
+.table-wrap{flex:1;overflow:auto;padding:0 20px 16px;background:#f4f5f7}
+table{width:100%;border-collapse:collapse;font-size:12px;min-width:960px;background:#fff;border-radius:8px;overflow:hidden;border:.5px solid rgba(0,0,0,.08)}
+thead tr{background:#f9f9f9}
+th{padding:8px 10px;text-align:left;font-size:11px;font-weight:500;color:#666;border-bottom:.5px solid rgba(0,0,0,.08);white-space:nowrap}
+td{padding:8px 10px;border-bottom:.5px solid rgba(0,0,0,.06);vertical-align:middle}
+tr.row-yellow{background:#fef9e7}
+tr.row-green{background:#f0f8ea}
+tr.row-red{background:#fdf2f2}
+tr.row-blue{background:#edf5fd}
+tr.row-grey{background:#f5f4f0}
+tr:hover td{filter:brightness(.97)}
+.status-pill{display:inline-flex;align-items:center;gap:4px;padding:2px 9px;border-radius:10px;font-size:11px;font-weight:500}
+.pill-yellow{background:#fef3cd;color:#856404}
+.pill-green{background:#d1e7dd;color:#0a3622}
+.pill-red{background:#f8d7da;color:#58151c}
+.pill-blue{background:#cfe2ff;color:#084298}
+.pill-grey{background:#e2e3e5;color:#41464b}
+.dot{width:7px;height:7px;border-radius:50%;display:inline-block}
+.dot-yellow{background:#f0ad00}.dot-green{background:#3b6d11}.dot-red{background:#a32d2d}.dot-blue{background:#185fa5}.dot-grey{background:#888780}
+.priority-high{color:#a32d2d;font-weight:500}.priority-med{color:#856404}.priority-low{color:#3b6d11}
+.ref-chip{font-family:monospace;font-size:11px;color:#185fa5;font-weight:500}
+.action-btns{display:flex;gap:4px}
+.icon-btn{width:26px;height:26px;display:flex;align-items:center;justify-content:center;border:.5px solid rgba(0,0,0,.1);border-radius:5px;cursor:pointer;color:#666;font-size:13px;background:#fff}
+.icon-btn:hover{background:#f5f5f5;color:#1a1a1a}
+.pagination{padding:10px 20px;display:flex;align-items:center;gap:12px;background:#fff;border-top:.5px solid rgba(0,0,0,.08);font-size:12px;color:#666}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:100;align-items:center;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal{background:#fff;border-radius:12px;width:360px;padding:22px;border:.5px solid #ccc}
+.modal h3{font-size:15px;font-weight:500;margin-bottom:14px}
+.modal .mfield{margin-bottom:12px}
+.modal .mfield label{font-size:11px;color:#666;display:block;margin-bottom:4px;text-transform:uppercase;letter-spacing:.4px}
+.modal .mfield input,.modal .mfield select{width:100%;padding:7px 10px;border:.5px solid #ccc;border-radius:6px;font-size:13px}
+.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="topbar">
+  <div style="display:flex;align-items:center">
+    <div class="logo-box">WG</div>
+    <div style="margin-left:10px">
+      <div class="logo-text">Wananchi Group</div>
+      <div class="logo-sub">Stores Requisition System</div>
+    </div>
+  </div>
+  <div style="display:flex;align-items:center;gap:16px;font-size:13px;color:#b0bcd4">
+    <span><i class="ti ti-bell"></i> 3</span>
+    <div class="user-badge"><i class="ti ti-user" style="font-size:14px"></i> Dept Head · James M.</div>
+  </div>
+</div>
+<div class="layout">
+<div class="sidebar">
+  <div style="height:12px"></div>
+  <div class="nav-section">Main</div>
+  <a class="nav-item" href="00-dashboard.html"><i class="ti ti-layout-dashboard"></i> Dashboard</a>
+  <a class="nav-item" href="01-requisitions-log.html"><i class="ti ti-list-details"></i> Requisitions Log</a>
+  <a class="nav-item" href="02-new-requisition.html"><i class="ti ti-plus"></i> New Requisition</a>
+
+  <div class="nav-section" style="margin-top:8px">Workflow</div>
+  <a class="nav-item" href="05-approvals.html"><i class="ti ti-circle-check"></i> Approvals <span class="nav-badge">5</span></a>
+  <a class="nav-item" href="06-issuance.html"><i class="ti ti-package"></i> Issuance</a>
+
+  <div class="nav-section" style="margin-top:8px">Tools</div>
+  <a class="nav-item" href="03-reports.html"><i class="ti ti-chart-bar"></i> Reports</a>
+  <a class="nav-item" href="07-catalogue.html"><i class="ti ti-book"></i> Item Catalogue</a>
+  <a class="nav-item" href="08-setup.html"><i class="ti ti-settings"></i> Setup</a>
+</div>
+<div class="main">
+  <div class="page-header">
+    <div>
+      <div class="page-title">Requisitions Log</div>
+      <div class="page-sub">All requisitions · sorted by date · click a row for details</div>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn" onclick="document.getElementById('exportModal').classList.add('open')"><i class="ti ti-download"></i> Export</button>
+      <a class="btn btn-primary" href="02-new-requisition.html"><i class="ti ti-plus"></i> New Requisition</a>
+    </div>
+  </div>
+  <div class="filters-bar">
+    <div class="search-box"><i class="ti ti-search" style="font-size:14px;color:#999"></i><input type="text" placeholder="Search REF, item, requester…" id="searchIn" oninput="filterRows()"></div>
+    <div style="display:flex;align-items:center;gap:6px"><span class="filter-label">Dept</span>
+      <select class="filter-sel" id="fDept" onchange="filterRows()">
+        <option value="">All</option>
+        <option>IT</option><option>Finance</option><option>Operations</option><option>HR</option><option>Marketing</option>
+      </select>
+    </div>
+    <div style="display:flex;align-items:center;gap:6px"><span class="filter-label">Status</span>
+      <select class="filter-sel" id="fStatus" onchange="filterRows()">
+        <option value="">All</option>
+        <option>Pending Approval</option><option>Approved</option><option>Rejected</option><option>Issued</option><option>Received</option>
+      </select>
+    </div>
+    <div style="display:flex;align-items:center;gap:6px"><span class="filter-label">Priority</span>
+      <select class="filter-sel" id="fPriority" onchange="filterRows()">
+        <option value="">All</option>
+        <option>High</option><option>Medium</option><option>Low</option>
+      </select>
+    </div>
+    <button class="btn" onclick="clearFilters()" style="margin-left:auto"><i class="ti ti-x"></i> Clear</button>
+  </div>
+  <div class="stats-row" id="statsRow">
+    <div class="stat-card" onclick="setStatus('')">
+      <div class="stat-label">Total Requisitions</div>
+      <div class="stat-num" id="sTotal">0</div>
+      <span class="stat-badge" style="background:#e6f1fb;color:#185fa5">All Requests</span>
+    </div>
+    <div class="stat-card" onclick="setStatus('Pending Approval')">
+      <div class="stat-label">Pending Approval</div>
+      <div class="stat-num" id="sPending" style="color:#856404">0</div>
+      <span class="stat-badge" style="background:#fef9e7;color:#92660a">Awaiting sign-off</span>
+    </div>
+    <div class="stat-card" onclick="setStatus('Approved')">
+      <div class="stat-label">Approved</div>
+      <div class="stat-num" id="sApproved" style="color:#3b6d11">0</div>
+      <span class="stat-badge" style="background:#eaf3de;color:#3b6d11">Ready to issue</span>
+    </div>
+    <div class="stat-card" onclick="setStatus('Issued')">
+      <div class="stat-label">Issued</div>
+      <div class="stat-num" id="sIssued" style="color:#185fa5">0</div>
+      <span class="stat-badge" style="background:#e6f1fb;color:#185fa5">Dispatched</span>
+    </div>
+    <div class="stat-card" onclick="setStatus('Rejected')">
+      <div class="stat-label">Rejected</div>
+      <div class="stat-num" id="sRejected" style="color:#a32d2d">0</div>
+      <span class="stat-badge" style="background:#fcebeb;color:#a32d2d">Not approved</span>
+    </div>
+  </div>
+  <div class="table-wrap">
+    <table id="reqTable">
+      <thead>
+        <tr>
+          <th>REF NO.</th><th>Date</th><th>Requester</th><th>Department</th><th>Item Description</th><th>Category</th><th>Qty</th><th>Unit Cost</th><th>Total</th><th>Priority</th><th>Approver</th><th>Status</th><th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="reqBody"></tbody>
+    </table>
+  </div>
+  <div class="pagination">
+    <span id="rowCount"></span>
+    <div style="margin-left:auto;display:flex;gap:6px;align-items:center">
+      <button class="btn" style="padding:5px 10px;font-size:11px" onclick="changePage(-1)"><i class="ti ti-chevron-left"></i></button>
+      <span id="pageIndicator" style="font-size:12px;color:#666">Page 1</span>
+      <button class="btn" style="padding:5px 10px;font-size:11px" onclick="changePage(1)"><i class="ti ti-chevron-right"></i></button>
+    </div>
+  </div>
+</div>
+</div>
+<div class="modal-overlay" id="exportModal" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="modal">
+    <h3><i class="ti ti-download"></i> Export Requisitions</h3>
+    <div class="mfield"><label>Format</label>
+      <select><option>Excel (.xlsx)</option><option>PDF</option><option>CSV</option></select></div>
+    <div class="mfield"><label>Date Range</label>
+      <div style="display:flex;gap:8px"><input type="date" value="2025-06-01"><input type="date" value="2025-06-30"></div></div>
+    <div class="mfield"><label>Include</label>
+      <select><option>All requisitions (current filter)</option><option>Pending only</option><option>Approved only</option></select></div>
+    <div class="modal-actions">
+      <button class="btn" onclick="document.getElementById('exportModal').classList.remove('open')">Cancel</button>
+      <button class="btn btn-primary"><i class="ti ti-download"></i> Export</button>
+    </div>
+  </div>
+</div>
+</div>
+<script>
+const DATA=[
+  {ref:"REQ-20250623-001",date:"2025-06-23",requester:"Alice Wangari",dept:"IT",item:"Laptop Power Adapters",cat:"Electronics",qty:5,unitCost:3500,priority:"High",approver:"David Mwangi",status:"Pending Approval"},
+  {ref:"REQ-20250623-002",date:"2025-06-23",requester:"Brian Otieno",dept:"Operations",item:"Safety Gloves (Box)",cat:"PPE",qty:20,unitCost:450,priority:"Medium",approver:"Sarah Kamau",status:"Approved"},
+  {ref:"REQ-20250622-003",date:"2025-06-22",requester:"Carol Njeri",dept:"HR",item:"Printer Paper A4 (Ream)",cat:"Stationery",qty:50,unitCost:600,priority:"Low",approver:"Tom Ochieng",status:"Issued"},
+  {ref:"REQ-20250622-004",date:"2025-06-22",requester:"David Mwangi",dept:"Finance",item:"External Hard Drives 1TB",cat:"Electronics",qty:3,unitCost:8500,priority:"High",approver:"Jane Wacera",status:"Rejected"},
+  {ref:"REQ-20250621-005",date:"2025-06-21",requester:"Eve Akinyi",dept:"Marketing",item:"Whiteboard Markers",cat:"Stationery",qty:30,unitCost:150,priority:"Low",approver:"Paul Kariuki",status:"Received"},
+  {ref:"REQ-20250621-006",date:"2025-06-21",requester:"Frank Omondi",dept:"IT",item:"Network Switch 24-port",cat:"Networking",qty:2,unitCost:18000,priority:"High",approver:"David Mwangi",status:"Pending Approval"},
+  {ref:"REQ-20250620-007",date:"2025-06-20",requester:"Grace Chebet",dept:"Operations",item:"Protective Goggles",cat:"PPE",qty:15,unitCost:800,priority:"Medium",approver:"Sarah Kamau",status:"Approved"},
+  {ref:"REQ-20250620-008",date:"2025-06-20",requester:"Henry Maina",dept:"Finance",item:"Filing Cabinets",cat:"Furniture",qty:4,unitCost:12000,priority:"Low",approver:"Jane Wacera",status:"Issued"},
+  {ref:"REQ-20250619-009",date:"2025-06-19",requester:"Irene Mutua",dept:"HR",item:"Office Chairs",cat:"Furniture",qty:6,unitCost:9500,priority:"Medium",approver:"Tom Ochieng",status:"Pending Approval"},
+  {ref:"REQ-20250619-010",date:"2025-06-19",requester:"John Kipkorir",dept:"Marketing",item:"Branded Pens (box)",cat:"Stationery",qty:100,unitCost:120,priority:"Low",approver:"Paul Kariuki",status:"Received"},
+  {ref:"REQ-20250618-011",date:"2025-06-18",requester:"Karen Wanjiku",dept:"IT",item:"UPS Battery Backup",cat:"Electronics",qty:8,unitCost:6200,priority:"High",approver:"David Mwangi",status:"Approved"},
+  {ref:"REQ-20250618-012",date:"2025-06-18",requester:"Leo Oduya",dept:"Operations",item:"Cleaning Detergents",cat:"Consumables",qty:24,unitCost:350,priority:"Low",approver:"Sarah Kamau",status:"Pending Approval"},
+];
+const STATUS_CLASS={"Pending Approval":"row-yellow","Approved":"row-green","Rejected":"row-red","Issued":"row-blue","Received":"row-grey"};
+const PILL_CLASS={"Pending Approval":"pill-yellow","Approved":"pill-green","Rejected":"pill-red","Issued":"pill-blue","Received":"pill-grey"};
+const DOT_CLASS={"Pending Approval":"dot-yellow","Approved":"dot-green","Rejected":"dot-red","Issued":"dot-blue","Received":"dot-grey"};
+const PRIORITY_CLASS={"High":"priority-high","Medium":"priority-med","Low":"priority-low"};
+let currentPage=1;const PAGE_SIZE=8;let filtered=[];
+function filterRows(){
+  const s=document.getElementById('searchIn').value.toLowerCase();
+  const d=document.getElementById('fDept').value;
+  const st=document.getElementById('fStatus').value;
+  const p=document.getElementById('fPriority').value;
+  filtered=DATA.filter(r=>{
+    return (!s||(r.ref+r.requester+r.item+r.dept).toLowerCase().includes(s))&&(!d||r.dept===d)&&(!st||r.status===st)&&(!p||r.priority===p);
+  });
+  currentPage=1;renderTable();renderStats();
+}
+function renderStats(){
+  const src=filtered.length?filtered:DATA;
+  document.getElementById('sTotal').textContent=src.length;
+  document.getElementById('sPending').textContent=src.filter(r=>r.status==='Pending Approval').length;
+  document.getElementById('sApproved').textContent=src.filter(r=>r.status==='Approved').length;
+  document.getElementById('sIssued').textContent=src.filter(r=>r.status==='Issued').length;
+  document.getElementById('sRejected').textContent=src.filter(r=>r.status==='Rejected').length;
+}
+function renderTable(){
+  const rows=filtered.length?filtered:DATA;
+  const start=(currentPage-1)*PAGE_SIZE;
+  const page=rows.slice(start,start+PAGE_SIZE);
+  document.getElementById('reqBody').innerHTML=page.map(r=>`
+    <tr class="${STATUS_CLASS[r.status]||''}">
+      <td><span class="ref-chip">${r.ref}</span></td>
+      <td>${r.date}</td><td>${r.requester}</td><td>${r.dept}</td>
+      <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${r.item}</td>
+      <td>${r.cat}</td>
+      <td style="text-align:right">${r.qty}</td>
+      <td style="text-align:right">KES ${r.unitCost.toLocaleString()}</td>
+      <td style="text-align:right;font-weight:500">KES ${(r.qty*r.unitCost).toLocaleString()}</td>
+      <td><span class="${PRIORITY_CLASS[r.priority]}">${r.priority}</span></td>
+      <td>${r.approver}</td>
+      <td><span class="status-pill ${PILL_CLASS[r.status]}"><span class="dot ${DOT_CLASS[r.status]}"></span>${r.status}</span></td>
+      <td><div class="action-btns">
+        <div class="icon-btn" title="View"><i class="ti ti-eye"></i></div>
+        <div class="icon-btn" title="Edit"><i class="ti ti-edit"></i></div>
+        <a class="icon-btn" href="04-gate-pass.html" title="Print slip"><i class="ti ti-printer"></i></a>
+      </div></td>
+    </tr>`).join('');
+  const total=rows.length;
+  const pages=Math.ceil(total/PAGE_SIZE);
+  document.getElementById('rowCount').textContent=`Showing ${start+1}–${Math.min(start+PAGE_SIZE,total)} of ${total} requisitions`;
+  document.getElementById('pageIndicator').textContent=`Page ${currentPage} of ${pages}`;
+}
+function changePage(dir){
+  const rows=filtered.length?filtered:DATA;
+  const pages=Math.ceil(rows.length/PAGE_SIZE);
+  currentPage=Math.max(1,Math.min(pages,currentPage+dir));
+  renderTable();
+}
+function setStatus(s){document.getElementById('fStatus').value=s;filterRows();}
+function clearFilters(){
+  document.getElementById('searchIn').value='';
+  ['fDept','fStatus','fPriority'].forEach(id=>document.getElementById(id).value='');
+  filtered=[];currentPage=1;renderTable();renderStats();
+}
+renderTable();renderStats();
+</script>
+</body>
+</html>

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WGR-SRS · Issuance</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<style>
+/* === Same styles as requisitions-log.html === */
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f4f5f7;color:#1a1a1a;min-height:100vh}
+.app{display:flex;flex-direction:column;min-height:100vh}
+.topbar{background:#1a2744;color:#fff;padding:10px 20px;display:flex;align-items:center;justify-content:space-between}
+.logo-box{background:#e8a020;color:#fff;font-size:11px;font-weight:600;padding:4px 8px;border-radius:4px}
+.logo-text{font-size:14px;font-weight:500;color:#e8e8e8;margin-left:10px}
+.logo-sub{font-size:10px;color:#4a6090;margin-top:1px}
+.user-badge{background:#2d3e6b;padding:4px 10px;border-radius:20px;display:flex;align-items:center;gap:6px;font-size:12px;color:#b0bcd4}
+.layout{display:flex;flex:1}
+.sidebar{width:200px;background:#1a2744;padding:12px 0;flex-shrink:0;min-height:calc(100vh - 46px)}
+.nav-section{padding:8px 16px 4px;font-size:10px;color:#4a6090;letter-spacing:1px;text-transform:uppercase}
+.nav-item{display:flex;align-items:center;gap:8px;padding:8px 16px;font-size:13px;color:#8a9ec4;cursor:pointer;border-left:2px solid transparent;text-decoration:none}
+.nav-item:hover{background:rgba(255,255,255,.05);color:#c8d4e8}
+.nav-item.active{background:rgba(232,160,32,.1);color:#e8a020;border-left-color:#e8a020}
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.page-header{background:#fff;border-bottom:.5px solid rgba(0,0,0,.1);padding:14px 20px;display:flex;align-items:center;justify-content:space-between}
+.page-title{font-size:16px;font-weight:500}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:6px;font-size:13px;cursor:pointer;border:.5px solid #ccc;background:#fff;color:#1a1a1a}
+.btn-primary{background:#1a2744;color:#fff;border-color:#1a2744}
+.filters-bar{background:#fff;border-bottom:.5px solid rgba(0,0,0,.08);padding:10px 20px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.table-wrap{flex:1;overflow:auto;padding:0 20px 16px;background:#f4f5f7}
+table{width:100%;border-collapse:collapse;font-size:12px;min-width:960px;background:#fff;border-radius:8px;overflow:hidden}
+thead tr{background:#f9f9f9}
+th{padding:8px 10px;text-align:left;font-size:11px;font-weight:500;color:#666;border-bottom:.5px solid rgba(0,0,0,.08)}
+td{padding:8px 10px;border-bottom:.5px solid rgba(0,0,0,.06);vertical-align:middle}
+tr.row-green{background:#f0f8ea}
+.status-pill{padding:2px 9px;border-radius:10px;font-size:11px;font-weight:500}
+.pill-green{background:#d1e7dd;color:#0a3622}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="topbar">
+  <div style="display:flex;align-items:center">
+    <div class="logo-box">WG</div>
+    <div style="margin-left:10px">
+      <div class="logo-text">Wananchi Group</div>
+      <div class="logo-sub">Stores Requisition System</div>
+    </div>
+  </div>
+  <div class="user-badge"><i class="ti ti-user" style="font-size:14px"></i> Store Team · Kevin Njoroge</div>
+</div>
+
+<div class="layout">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div style="height:12px"></div>
+    <div class="nav-section">Main</div>
+    <a class="nav-item" href="00-dashboard.html"><i class="ti ti-layout-dashboard"></i> Dashboard</a>
+    <a class="nav-item" href="01-requisitions-log.html"><i class="ti ti-list-details"></i> Requisitions Log</a>
+    <a class="nav-item" href="02-new-requisition.html"><i class="ti ti-plus"></i> New Requisition</a>
+
+    <div class="nav-section" style="margin-top:8px">Workflow</div>
+    <a class="nav-item" href="05-approvals.html"><i class="ti ti-circle-check"></i> Approvals</a>
+    <a class="nav-item active" href="06-issuance.html"><i class="ti ti-package"></i> Issuance</a>
+
+    <div class="nav-section" style="margin-top:8px">Tools</div>
+    <a class="nav-item" href="03-reports.html"><i class="ti ti-chart-bar"></i> Reports</a>
+    <a class="nav-item" href="07-catalogue.html"><i class="ti ti-book"></i> Item Catalogue</a>
+    <a class="nav-item" href="08-setup.html"><i class="ti ti-settings"></i> Setup</a>
+  </div>
+
+  <div class="main">
+    <div class="page-header">
+      <div>
+        <div class="page-title">Ready for Issuance</div>
+        <div class="page-sub">Approved requisitions awaiting physical issuance • Green rows</div>
+      </div>
+      <button class="btn btn-primary" onclick="issueSelected()"><i class="ti ti-package"></i> Issue Selected Items</button>
+    </div>
+
+    <div class="filters-bar">
+      <div class="search-box" style="display:flex;align-items:center;gap:6px;border:.5px solid #ccc;border-radius:6px;padding:5px 10px;background:#fff">
+        <i class="ti ti-search"></i>
+        <input type="text" id="searchIn" placeholder="Search REF or item..." oninput="filterIssuance()" style="border:none;outline:none;width:200px">
+      </div>
+      <button class="btn" onclick="clearIssuanceFilter()" style="margin-left:auto">Clear Filter</button>
+    </div>
+
+    <div class="table-wrap">
+      <table id="issuanceTable">
+        <thead>
+          <tr>
+            <th><input type="checkbox" id="selectAll" onclick="toggleAll(this)"></th>
+            <th>REF NO.</th>
+            <th>Date</th>
+            <th>Requester</th>
+            <th>Department</th>
+            <th>Item Description</th>
+            <th>Qty Requested</th>
+            <th>Unit Cost</th>
+            <th>Total</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="issuanceBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</div>
+
+<script>
+// Sample approved items only
+const APPROVED_DATA = [
+  {ref:"REQ-20250623-002",date:"2025-06-23",requester:"Brian Otieno",dept:"Operations",item:"Safety Gloves (Box)",qty:20,unitCost:450},
+  {ref:"REQ-20250620-007",date:"2025-06-20",requester:"Grace Chebet",dept:"Operations",item:"Protective Goggles",qty:15,unitCost:800},
+  {ref:"REQ-20250618-011",date:"2025-06-18",requester:"Karen Wanjiku",dept:"IT",item:"UPS Battery Backup",qty:8,unitCost:6200},
+  {ref:"REQ-20250622-003",date:"2025-06-22",requester:"Carol Njeri",dept:"HR",item:"Printer Paper A4 (Ream)",qty:50,unitCost:600},
+];
+
+function renderIssuance() {
+  const tbody = document.getElementById('issuanceBody');
+  tbody.innerHTML = APPROVED_DATA.map((r, i) => `
+    <tr class="row-green">
+      <td><input type="checkbox" class="row-check" data-index="${i}"></td>
+      <td><span class="ref-chip">${r.ref}</span></td>
+      <td>${r.date}</td>
+      <td>${r.requester}</td>
+      <td>${r.dept}</td>
+      <td>${r.item}</td>
+      <td style="text-align:right">${r.qty}</td>
+      <td style="text-align:right">KES ${r.unitCost.toLocaleString()}</td>
+      <td style="text-align:right;font-weight:500">KES ${(r.qty * r.unitCost).toLocaleString()}</td>
+      <td>
+        <button class="btn" onclick="issueSingle(${i})" style="padding:4px 10px;font-size:12px">
+          <i class="ti ti-package"></i> Issue
+        </button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function issueSingle(index) {
+  const item = APPROVED_DATA[index];
+  if (confirm(`Issue ${item.item} (${item.qty} units) for ${item.ref}?`)) {
+    alert(`✅ ${item.ref} marked as ISSUED and moved to blue status.`);
+    // In real app, this would update the main log
+  }
+}
+
+function issueSelected() {
+  const checked = document.querySelectorAll('.row-check:checked');
+  if (checked.length === 0) {
+    alert("Please select at least one item to issue.");
+    return;
+  }
+  if (confirm(`Issue ${checked.length} selected item(s)?`)) {
+    alert("✅ Selected items have been issued successfully!");
+  }
+}
+
+function toggleAll(cb) {
+  document.querySelectorAll('.row-check').forEach(chk => chk.checked = cb.checked);
+}
+
+function filterIssuance() {
+  // Simple client-side filter (can be expanded)
+  renderIssuance();
+}
+
+function clearIssuanceFilter() {
+  document.getElementById('searchIn').value = '';
+  renderIssuance();
+}
+
+// Initialize
+renderIssuance();
+</script>
+</body>
+</html>

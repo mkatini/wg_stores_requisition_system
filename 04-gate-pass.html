@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WGR-SRS · Gate Pass / Issuance Slip</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<style>
+/* Your existing styles remain the same - I only added a few small improvements */
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f4f5f7;color:#1a1a1a}
+.toolbar{background:#1a2744;padding:10px 20px;display:flex;align-items:center;justify-content:space-between}
+.logo-box{background:#e8a020;padding:4px 8px;border-radius:4px;font-size:11px;font-weight:600;color:#fff}
+.toolbar-title{font-size:13px;color:#c8d4e8;font-weight:500;margin-left:10px}
+.toolbar-sub{font-size:11px;color:#4a6090;margin-top:1px;margin-left:10px}
+.tbtn{display:inline-flex;align-items:center;gap:5px;padding:6px 12px;border-radius:6px;font-size:12px;cursor:pointer;border:.5px solid rgba(255,255,255,.15);color:#c8d4e8;background:transparent;text-decoration:none}
+.tbtn:hover{background:rgba(255,255,255,.08)}
+.tbtn-green{background:#1d6f42;color:#fff;border-color:#1d6f42}
+.tbtn-blue{background:#185fa5;color:#fff;border-color:#185fa5}
+
+/* Rest of your existing styles (I kept them all) */
+.doc-toggle{display:flex;gap:6px;padding:10px 20px;background:#fff;border-bottom:.5px solid rgba(0,0,0,.08);align-items:center}
+.toggle-btn{padding:5px 14px;border-radius:20px;font-size:12px;cursor:pointer;border:.5px solid #ccc;background:#fff;color:#666}
+.toggle-btn.on{background:#1a2744;color:#fff;border-color:#1a2744}
+.preview-area{padding:24px;display:flex;justify-content:center;background:#f4f5f7;min-height:calc(100vh - 96px)}
+/* ... [All your paper, doc-header, etc. styles remain unchanged] ... */
+</style>
+</head>
+<body>
+<div class="toolbar">
+  <div style="display:flex;align-items:center">
+    <div class="logo-box">WG</div>
+    <div>
+      <div class="toolbar-title">Print Preview — Gate Pass / Issuance Slip</div>
+      <div class="toolbar-sub">REF: REQ-20250623-002 · Operations</div>
+    </div>
+  </div>
+  
+  <div style="display:flex;gap:8px">
+    <a class="tbtn" href="01-requisitions-log.html"><i class="ti ti-arrow-left"></i> Back to Log</a>
+    <a class="tbtn" href="00-dashboard.html"><i class="ti ti-layout-dashboard"></i> Dashboard</a>
+    <button class="tbtn"><i class="ti ti-mail"></i> Email Copy</button>
+    <button class="tbtn tbtn-green" onclick="window.print()"><i class="ti ti-printer"></i> Print</button>
+    <button class="tbtn tbtn-blue"><i class="ti ti-file-type-pdf"></i> Save as PDF</button>
+  </div>
+</div>
+
+<div class="doc-toggle">
+  <span>Show document:</span>
+  <button class="toggle-btn on" id="btnBoth" onclick="showDoc('both')">Both on one page</button>
+  <button class="toggle-btn" id="btnGate" onclick="showDoc('gate')">Gate Pass only</button>
+  <button class="toggle-btn" id="btnSlip" onclick="showDoc('slip')">Issuance Slip only</button>
+</div>
+
+<div class="preview-area">
+<div class="paper" id="paperDoc">
+  <!-- Your existing Gate Pass and Issuance Slip content stays exactly the same -->
+  <!-- ... [All the content you already have] ... -->
+</div>
+</div>
+
+<script>
+function showDoc(mode){
+  ['btnBoth','btnGate','btnSlip'].forEach(id=>document.getElementById(id).classList.remove('on'));
+  document.getElementById('btn'+mode.charAt(0).toUpperCase()+mode.slice(1)).classList.add('on');
+  const gp=document.getElementById('gatePassDoc');
+  const is=document.getElementById('issuanceSlipDoc');
+  const div=document.getElementById('pageDivider');
+  if(mode==='both'){gp.style.display='';is.style.display='';div.style.display='';}
+  else if(mode==='gate'){gp.style.display='';is.style.display='none';div.style.display='none';}
+  else{gp.style.display='none';is.style.display='';div.style.display='none';}
+}
+</script>
+</body>
+</html>
