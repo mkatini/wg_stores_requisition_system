@@ -2,32 +2,32 @@
 
 A modern, role-based **static HTML prototype** for the Stores Requisition Process.
 
-![Screenshot](https://via.placeholder.com/800x400?text=WGR-SRS+Prototype)
 
-## 🎯 Overview
 
-This prototype demonstrates a clean, paperless digital workflow based on the original "HOW TO USE" guide. It includes all major screens with realistic interactions.
 
-### Live Demo
+## 🎯 Live Demo
+
 👉 **[Open Prototype →](https://mkatini.github.io/wg_stores_requisition_system/)**
 
+## 📋 Overview
 
+This prototype fully replaces the current paper-based requisition process with a clean, intuitive, and colour-coded digital workflow. It closely follows the original "HOW TO USE" guide.
 
-## 📋 Features Included
-
-- ✅ Role-based navigation (Dashboard, Requester, Approver, Store Team, Management)
-- ✅ Colour-coded status system (Yellow → Green → Red → Blue → Grey)
-- ✅ Interactive Requisitions Log with filters and stats
-- ✅ New Requisition Form with auto-calculations
-- ✅ Approvals & Issuance screens
-- ✅ Reports with charts (Chart.js)
-- ✅ Printable Gate Pass / Issuance Slip
-- ✅ Item Catalogue
-- ✅ Setup page
+### Key Features
+- Role-based navigation (Requester, Department Head, Store Team, Management)
+- Colour-coded status system (Yellow → Green → Red → Blue → Grey)
+- Interactive Requisitions Log with powerful filters & live stats
+- New Requisition Form with auto REF NO, auto-approver & total calculations
+- Dedicated Approvals screen for Department Heads
+- Issuance screen for Store Team
+- Reports & Analytics with charts
+- Printable Gate Pass / Issuance Slip
+- Item Catalogue and Setup pages
 
 ## 🗂️ Project Structure
 
-wgr-srs/
+wg_stores_requisition_system/
+├── index.html                 # Redirects to Dashboard
 ├── 00-dashboard.html
 ├── 01-requisitions-log.html
 ├── 02-new-requisition.html
@@ -40,22 +40,18 @@ wgr-srs/
 ├── README.md
 └── ...
 
+
 ## 🚀 How to Run Locally
 
-1. Download or clone this repository
-2. Open any `.html` file in your browser (no server needed)
-3. Start from `00-dashboard.html`
+1. Clone or download the repository
+2. Open `index.html` (or any `.html` file) in your browser
+3. No server required
 
-## 📄 Original Process
+## 🔮 Next Steps
 
-Refer to the attached `HOW-TO-USE.png` (or the image in the repo) for the exact workflow this prototype follows.
-
-## 🔮 Next Phase
-
-- Convert to Microsoft Power Apps + SharePoint
-- Add real backend & user authentication
-- Implement Power Automate approvals
-
+- - Use this prototype as a guide to tweak the current inventory application that is only used by the technical team.
 ---
 
-**Made for Wananchi Group Digital Transformation**
+**Made for Wananchi Group Digital Transformation**  
+Feedback and suggestions are highly welcome!
+
