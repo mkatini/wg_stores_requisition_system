@@ -5,11 +5,11 @@ A modern, role-based **static HTML prototype** for the Stores Requisition Proces
 
 | Screen | Preview |
 |--------|---------|
-| **Dashboard** | ![Dashboard](screenshots/dashboard.png) |
-| **Requisitions Log** | ![Requisitions Log](screenshots/requisitions-log.png) |
-| **New Requisition** | ![New Requisition](screenshots/new-requsition.png) |
-| **Reports** | ![Reports](screenshots/reports.png) |
-| **Gate Pass** | ![Gate Pass](screenshots/issuance.png) |
+| **Dashboard** | ![Dashboard](dashboard.png) |
+| **Requisitions Log** | ![Requisitions Log](requisitions-log.png) |
+| **New Requisition** | ![New Requisition](new-requsition.png) |
+| **Reports** | ![Reports](reports.png) |
+| **Gate Pass** | ![Gate Pass](issuance.png) |
 
 
 
