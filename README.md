@@ -1,7 +1,15 @@
 # Wananchi Group Stores Requisition System (WGR-SRS)
 
 A modern, role-based **static HTML prototype** for the Stores Requisition Process.
+## 📸 Screenshots
 
+| Screen | Preview |
+|--------|---------|
+| **Dashboard** | ![Dashboard](screenshots/dashboard.png) |
+| **Requisitions Log** | ![Requisitions Log](screenshots/requisitions-log.png) |
+| **New Requisition** | ![New Requisition](screenshots/new-requsition.png) |
+| **Reports** | ![Reports](screenshots/reports.png) |
+| **Gate Pass** | ![Gate Pass](screenshots/issuance.png) |
 
 
 
