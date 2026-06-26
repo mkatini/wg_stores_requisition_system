@@ -26,6 +26,6 @@ It closely follows the original "HOW TO USE" process while making it paperless (
 
 ## 🚀 Live Demo
 
-[Open the Prototype](https://yourusername.github.io/wgr-srs/) *(update after GitHub Pages deployment)*
+[Open the Prototype](https://github.com/mkatini/wg_stores_requisition_system.git)*(update after GitHub Pages deployment)*
 
 ## 🗂️ Project Structure
