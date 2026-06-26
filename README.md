@@ -9,7 +9,7 @@ A modern, role-based **static HTML prototype** for the Stores Requisition Proces
 | **Requisitions Log** | ![Requisitions Log](requisitions-log.png) |
 | **New Requisition** | ![New Requisition](new-requsition.png) |
 | **Reports** | ![Reports](reports.png) |
-| **Gate Pass** | ![Gate Pass](issuance.png) |
+| **Ready for Issuance** | ![Gate Pass](issuance.png) |
 
 
 
